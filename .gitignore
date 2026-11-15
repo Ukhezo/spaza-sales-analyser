@@ -9,3 +9,6 @@ venv/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Generated database (rebuild with: python -m spaza_analyser.sql_report data/sales_2025.csv)
+*.db

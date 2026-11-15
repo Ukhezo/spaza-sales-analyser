@@ -25,3 +25,5 @@ jobs:
         run: pytest -q
       - name: Run the analyser on the sample data
         run: python -m spaza_analyser data/sales_2025.csv --out /tmp/report
+      - name: Build the database and run the SQL queries
+        run: python -m spaza_analyser.sql_report data/sales_2025.csv --db /tmp/spaza.db --out /tmp/sql_results.md
