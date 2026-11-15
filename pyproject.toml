@@ -1,0 +1,25 @@
+[project]
+name = "spaza-analyser"
+version = "1.0.0"
+description = "Turn a spaza shop's sales CSV into insights, charts and a report."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["pandas>=2.0", "matplotlib>=3.7", "tabulate>=0.9"]
+
+[project.scripts]
+spaza-analyser = "spaza_analyser.cli:main"
+
+[tool.setuptools]
+packages = ["spaza_analyser"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
