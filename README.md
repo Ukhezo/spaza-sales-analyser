@@ -18,12 +18,15 @@ Run on a year of sample sales for a fictional shop, *Mama Zulu's Spaza* in Greyt
 - **Airtime brings people in but barely pays:** a 6% margin, compared with about 19% for the shop overall.
 - **Two daily rushes**, around 07:00 and 17:00, and weekends are the busiest days.
 - **Seasonal swings:** paraffin and candles more than double in winter, while cold drinks peak in summer.
+- **Cash is still king:** 58% of sales value is paid in cash, 26% by card and 16% by mobile wallet.
 
 | Payday effect | Top products by profit |
 |---|---|
 | ![Sales by day of the month](reports/charts/payday.png) | ![Top products](reports/charts/top_products.png) |
 | **When customers shop** | **Seasonal stock** |
 | ![Sales by hour](reports/charts/hours.png) | ![Paraffin vs cold drinks](reports/charts/seasonal.png) |
+| **Sales by category** | **How customers pay** |
+| ![Sales by category](reports/charts/categories.png) | ![Payment methods pie chart](reports/charts/payments.png) |
 
 The full generated report is in [`reports/report.md`](reports/report.md), and the step-by-step analysis is in the [Jupyter notebook](notebooks/sales_analysis.ipynb).
 
@@ -32,7 +35,7 @@ The full generated report is in [`reports/report.md`](reports/report.md), and th
 - **Data loading with validation:** clear errors for missing columns, bad dates or numbers, and negative quantities.
 - **Analysis functions:** monthly trend, product and category performance, slow movers, weekday and hourly patterns, the payday effect, payment mix and seasonal products.
 - **Plain-language insights:** findings written as sentences a shop owner can act on.
-- **Seven charts** in one consistent style, with South African rand formatting (`R 1 234 567.89`).
+- **Eight charts** (bar, line, donut and pie) in one consistent style, with South African rand formatting (`R 1 234 567.89`).
 - **Markdown report** with headline numbers, tables, charts and recommendations.
 - **Command-line tool**, plus a **Jupyter notebook** that tells the story.
 - **19 automated tests** (pytest) and linting (ruff), run on every push with GitHub Actions.

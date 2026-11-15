@@ -110,6 +110,8 @@ def build_report(df: pd.DataFrame, out_dir: str | Path, shop_name: str = "Spaza 
         "",
         "## How customers pay",
         "",
+        f"![Payment methods]({rel['payments']})",
+        "",
         _table(pay, money=["revenue"], pct=["share_of_value_pct"], ints=["sales"]),
         "",
     ]

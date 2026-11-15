@@ -165,6 +165,33 @@ def seasonal_chart(df: pd.DataFrame, out_dir: Path) -> Path:
     return _save(fig, out_dir, "seasonal.png")
 
 
+def payment_chart(df: pd.DataFrame, out_dir: Path) -> Path:
+    mix = analysis.payment_mix(df)
+    colors = [GREEN, GOLD, "#2f6fb0", "#c4533a", "#7b5ea7"][: len(mix)]
+    fig, ax = plt.subplots(figsize=(7.5, 5.2))
+    _wedges, texts, autotexts = ax.pie(
+        mix["revenue"],
+        labels=mix.index,
+        colors=colors,
+        startangle=90,
+        counterclock=False,
+        explode=[0.04] + [0] * (len(mix) - 1),
+        autopct=lambda pct: f"{pct:.0f}%",
+        pctdistance=0.68,
+        wedgeprops={"edgecolor": "white", "linewidth": 2},
+    )
+    for t in texts:
+        t.set_fontsize(10)
+        t.set_color(INK)
+    for t in autotexts:
+        t.set_color("white")
+        t.set_fontsize(11)
+        t.set_fontweight("bold")
+    ax.set_title("How customers pay (share of sales value)", loc="left", fontsize=14, fontweight="bold", color=INK)
+    ax.axis("equal")
+    return _save(fig, out_dir, "payments.png")
+
+
 def make_all_charts(df: pd.DataFrame, out_dir: str | Path) -> dict[str, Path]:
     out_dir = Path(out_dir)
     return {
@@ -175,4 +202,5 @@ def make_all_charts(df: pd.DataFrame, out_dir: str | Path) -> dict[str, Path]:
         "hours": hourly_chart(df, out_dir),
         "payday": payday_chart(df, out_dir),
         "seasonal": seasonal_chart(df, out_dir),
+        "payments": payment_chart(df, out_dir),
     }

@@ -99,6 +99,8 @@ These earn the least profit. Consider stocking less, re-pricing or bundling them
 
 ## How customers pay
 
+![Payment methods](charts/payments.png)
+
 | payment_method   | sales   | revenue      | share_of_value_pct   |
 |:-----------------|:--------|:-------------|:---------------------|
 | Cash             | 35 291  | R 871 315.56 | 58.4%                |

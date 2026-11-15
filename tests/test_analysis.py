@@ -122,7 +122,7 @@ def test_cli_writes_report_and_charts(sales, tmp_path, capsys):
     assert main([str(csv), "--out", str(out), "--shop", "Test Spaza"]) == 0
     report = (out / "report.md").read_text(encoding="utf-8")
     assert report.startswith("# Test Spaza: sales report")
-    assert len(list((out / "charts").glob("*.png"))) == 7
+    assert len(list((out / "charts").glob("*.png"))) == 8
     assert "Gross profit" in capsys.readouterr().out
 
 
