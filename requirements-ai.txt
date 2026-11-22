@@ -1,0 +1,2 @@
+# Optional: lets the chatbot answer with a Claude model when ANTHROPIC_API_KEY is set.
+anthropic>=0.40

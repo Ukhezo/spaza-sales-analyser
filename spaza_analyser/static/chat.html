@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spaza Sales Chatbot</title>
+<style>
+  :root { --green:#1f7a4f; --gold:#e0a526; --ink:#1d1d1f; --muted:#5f6368; --bg:#f6f4ef; }
+  * { box-sizing:border-box; margin:0; padding:0 }
+  body { font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink);
+         min-height:100vh; display:flex; justify-content:center; padding:24px 12px }
+  main { width:min(720px,100%); display:flex; flex-direction:column; gap:14px }
+  header h1 { font-size:22px; color:var(--green) }
+  header p { color:var(--muted); font-size:15px; margin-top:4px }
+  header a { color:var(--green) }
+  #log { background:#fff; border:1px solid #e2ddd2; border-radius:14px; padding:16px; min-height:320px;
+         max-height:60vh; overflow-y:auto; display:flex; flex-direction:column; gap:10px }
+  .msg { max-width:85%; padding:10px 14px; border-radius:14px; line-height:1.45; white-space:pre-wrap; font-size:15px }
+  .bot { background:#eef6f1; align-self:flex-start; border-bottom-left-radius:4px }
+  .me { background:var(--green); color:#fff; align-self:flex-end; border-bottom-right-radius:4px }
+  .meta { font-size:12px; color:var(--muted); margin-top:4px }
+  .chips { display:flex; flex-wrap:wrap; gap:8px }
+  .chips button { border:1px solid #d5cfc2; background:#fff; border-radius:999px; padding:6px 12px; font-size:14px; cursor:pointer }
+  .chips button:hover { border-color:var(--green); color:var(--green) }
+  form { display:flex; gap:8px }
+  input { flex:1; font:inherit; padding:12px 14px; border:1px solid #d5cfc2; border-radius:10px }
+  input:focus { outline:2px solid var(--green); border-color:transparent }
+  form button { font:inherit; font-weight:600; background:var(--green); color:#fff; border:0; border-radius:10px; padding:0 18px; cursor:pointer }
+  form button:disabled { opacity:.6 }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Spaza Sales Chatbot</h1>
+    <p>Ask about Mama Zulu's Spaza sales in plain English. Developers: see the <a href="/docs">API docs</a>.</p>
+  </header>
+  <div id="log" aria-live="polite"></div>
+  <div class="chips">
+    <button>What were total sales?</button>
+    <button>Which product makes the most profit?</button>
+    <button>Does payday matter?</button>
+    <button>What is the busiest day?</button>
+    <button>What time is the rush?</button>
+    <button>How do customers pay?</button>
+    <button>Any advice?</button>
+  </div>
+  <form id="f">
+    <input id="q" autocomplete="off" maxlength="500" placeholder="Type a question…" aria-label="Your question">
+    <button id="send">Ask</button>
+  </form>
+</main>
+<script>
+const log = document.getElementById('log'), q = document.getElementById('q'), send = document.getElementById('send');
+function add(text, who, meta) {
+  const d = document.createElement('div'); d.className = 'msg ' + who; d.textContent = text;
+  if (meta) { const m = document.createElement('div'); m.className = 'meta'; m.textContent = meta; d.appendChild(m); }
+  log.appendChild(d); log.scrollTop = log.scrollHeight;
+}
+async function askBot(question) {
+  if (!question.trim()) return;
+  add(question, 'me'); q.value = ''; send.disabled = true;
+  try {
+    const r = await fetch('/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                     body: JSON.stringify({ question }) });
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.detail || 'Request failed');
+    add(j.answer, 'bot', j.mode === 'ai' ? 'Answered by AI from the sales data' : 'Answered from the sales data');
+  } catch (e) { add('Sorry, something went wrong: ' + e.message, 'bot'); }
+  finally { send.disabled = false; q.focus(); }
+}
+document.getElementById('f').addEventListener('submit', e => { e.preventDefault(); askBot(q.value); });
+document.querySelectorAll('.chips button').forEach(b => b.addEventListener('click', () => askBot(b.textContent)));
+add("Sawubona! I'm the shop's sales assistant. Ask me anything about the sales, or tap a question below.", 'bot');
+</script>
+</body>
+</html>
